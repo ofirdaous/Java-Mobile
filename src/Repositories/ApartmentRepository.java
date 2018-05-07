@@ -1,0 +1,140 @@
+package Repositories;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import Abstracts.BaseRepository;
+import Abstracts.IRepository;
+import Entities.ApartmentModel;
+import Entities.Settings;
+
+public class ApartmentRepository extends BaseRepository implements IRepository<ApartmentModel> {
+
+	public ApartmentRepository(Settings settings) {
+		super(settings);
+	}
+
+	@Override
+	public void Create(ApartmentModel model) throws Exception {
+		if(!IsModelValid(model))
+			throw new Exception("Model is not valid.");
+
+		try (Connection sqlConnection = DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password)){
+			Statement queryStatement = sqlConnection.createStatement();
+
+			queryStatement.executeUpdate("INSERT INTO apartment (ApartmentNumber) " 
+					+ "VALUES ("+model.ApartmentNumber+")");
+
+			sqlConnection.close();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} 
+	}
+
+	@Override
+	public ArrayList<ApartmentModel> GetAll() throws Exception {
+		ArrayList<ApartmentModel> apartmentList = new ArrayList<ApartmentModel>();
+
+		try (Connection sqlConnection = DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password)){
+			Statement queryStatement = sqlConnection.createStatement();
+			ResultSet resultSet = queryStatement.executeQuery("SELECT * FROM apartment");
+
+			while (resultSet.next()) {
+				ApartmentModel model = new ApartmentModel();
+
+				model.ID = Integer.parseInt(resultSet.getString("ID"));
+				model.ApartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
+
+				if(model != null)
+					apartmentList.add(model);
+			}
+
+			sqlConnection.close();
+
+		} catch (SQLException ex) {
+			throw new Exception(ex.getMessage());
+		} 
+
+		return apartmentList;
+	}
+
+	@Override
+	public ApartmentModel GetByID(int id) throws Exception {
+		if(id < 1)
+			throw new Exception("ID cannot be less than 1.");
+
+		ApartmentModel model = null;
+
+		String query = "SELECT * FROM apartment WHERE ID = " + id + "";
+
+		try (Connection sqlConnection = DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password)){
+			Statement queryStatement = sqlConnection.createStatement();
+			ResultSet resultSet = queryStatement.executeQuery(query);
+
+			if (resultSet.next()) {
+				model = new ApartmentModel();
+
+				model.ID = Integer.parseInt(resultSet.getString("ID"));
+				model.ApartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
+
+			}
+
+			sqlConnection.close();
+
+		} catch (SQLException ex) {
+			throw new Exception(ex.getMessage());
+		} 
+
+		return model;
+	}
+
+	@Override
+	public void Update(ApartmentModel model) throws Exception {
+		if(!IsModelValid(model))
+			throw new Exception("Model is not valid.");
+
+		try (Connection sqlConnection = DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password)){
+			Statement queryStatement = sqlConnection.createStatement();
+
+			queryStatement.executeUpdate("UPDATE apartment "
+					+ "SET ApartmentNumber = " + model.ApartmentNumber + ""
+					+ " WHERE ID = " + model.ID + "");
+
+			sqlConnection.close();
+
+		} catch (SQLException ex) {
+			throw new Exception(ex.getMessage());
+		} 
+	}
+
+	@Override
+	public void DeleteByID(int id) throws Exception {
+		if(id < 1)
+			throw new Exception("ID cannot be less than 1.");
+
+		try (Connection sqlConnection = DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password)){
+			Statement queryStatement = sqlConnection.createStatement();
+
+			queryStatement.executeUpdate("DELETE FROM apartment WHERE ID = " + id + "");
+
+			sqlConnection.close();
+
+		} catch (SQLException ex) {
+			throw new Exception(ex.getMessage());
+		} 
+	}
+
+	private boolean IsModelValid(ApartmentModel model){
+		if(model == null
+				|| model.ID < 0
+				|| model.ApartmentNumber < 1)
+			return false;
+		else
+			return true;
+	}
+}
