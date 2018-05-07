@@ -47,7 +47,7 @@ public class Menu {
 				System.out.println(ex.getMessage());
 			}
 
-			System.out.println("Please make new choice: ( Check menu options )");
+			System.out.println("Please make new choice: ( Check menu options ):");
 			choice = sc.nextInt();
 		}
 
