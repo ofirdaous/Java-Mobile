@@ -19,13 +19,13 @@ import Entities.PaymentModel;
 import Entities.Settings;
 
 public class PaymentRepository extends BaseRepository implements IRepository<PaymentModel> {
-
-	SimpleDateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
-
+	//region Constructor
 	public PaymentRepository(Settings settings) {
 		super(settings);
 	}
+	//endregion
 
+	//region Public Methods
 	@Override
 	public void Create(PaymentModel model) throws Exception {
 		if(!IsModelValid(model))
@@ -173,15 +173,20 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 		return modelList;
 	}
-	
+	//endregion
+
+	//region Private Methods
+	// Validates whether the received model is valid or not.
 	private boolean IsModelValid(PaymentModel model){
-		if(model == null
-				|| model.ID < 0
-				|| model.DateOfPayment == null
-				|| model.PaymentAmount < 0
-				|| model.ApartmentNumber < 1)
+		if(model == null || model.ID < 0 || model.DateOfPayment == null || model.PaymentAmount < 0 || model.ApartmentNumber < 1)
 			return false;
 		else
 			return true;
 	}
+
+	// Receives driver manager connection entity.
+	private Connection GetConnectionDrive() {
+		return DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password);
+	}
+	//endregion
 }

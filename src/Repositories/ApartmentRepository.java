@@ -13,11 +13,13 @@ import Entities.ApartmentModel;
 import Entities.Settings;
 
 public class ApartmentRepository extends BaseRepository implements IRepository<ApartmentModel> {
-
+	//region Constructor
 	public ApartmentRepository(Settings settings) {
 		super(settings);
 	}
+	//endregion
 
+	//region Public Methods
 	@Override
 	public void Create(ApartmentModel model) throws Exception {
 		if(!IsModelValid(model))
@@ -30,7 +32,6 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 					+ "VALUES ("+model.ApartmentNumber+")");
 
 			sqlConnection.close();
-
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} 
@@ -55,7 +56,6 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			}
 
 			sqlConnection.close();
-
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		} 
@@ -81,11 +81,9 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 				model.ID = Integer.parseInt(resultSet.getString("ID"));
 				model.ApartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
-
 			}
 
 			sqlConnection.close();
-
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		} 
@@ -106,7 +104,6 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 					+ " WHERE ID = " + model.ID + "");
 
 			sqlConnection.close();
-
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		} 
@@ -123,18 +120,24 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			queryStatement.executeUpdate("DELETE FROM apartment WHERE ID = " + id + "");
 
 			sqlConnection.close();
-
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		} 
 	}
+	//endregion
 
-	private boolean IsModelValid(ApartmentModel model){
-		if(model == null
-				|| model.ID < 0
-				|| model.ApartmentNumber < 1)
+	//region Private Methods
+	// Validates whether the received model is valid or not.
+	private boolean IsModelValid(ApartmentModel model) {
+		if(model == null || model.ID < 0 || model.ApartmentNumber < 1)
 			return false;
 		else
 			return true;
 	}
+
+	// Receives driver manager connection entity.
+	private Connection GetConnectionDrive() {
+		return DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password);
+	}
+	//endregion
 }

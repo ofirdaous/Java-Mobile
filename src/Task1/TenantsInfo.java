@@ -11,11 +11,14 @@ import Repositories.ApartmentRepository;
 import Repositories.PaymentRepository;
 
 public class TenantsInfo extends BaseController {
-
+	//region Constructor
 	public TenantsInfo(){
 		super();
 	}
+	//endregion
 
+	//region Public Methods
+	// Function takes apartment ID, payment amount, and date as specific format and inserts the data to SQL.
 	public void InsertPaymentForApartment(int apartmentID, double payment, Date date) throws Exception{
 		if(apartmentID < 1 || payment < 0 || date == null)
 			throw new Exception("Inputs are not valid.");
@@ -36,6 +39,7 @@ public class TenantsInfo extends BaseController {
 		pRepo.Create(paymentModel);
 	}
 	
+	// Receives list of payments of specific apartment by given ID and display the information.
 	public ArrayList<PaymentModel> GetPaymentPerMonthForApartment(int id) throws Exception{
 		if(id < 1)
 			throw new Exception("Inputs are not valid.");
@@ -52,6 +56,7 @@ public class TenantsInfo extends BaseController {
 		return paymentListModel;
 	}
 	
+	// Receives payment of apartment by given ID and given date, will take only the month.
 	public double GetPaymentByIDAndMonth(int id, Date date) throws Exception{
 		if(id < 1 || date == null)
 			throw new Exception("Inputs are not valid.");
@@ -68,4 +73,5 @@ public class TenantsInfo extends BaseController {
 		
 		return paymentAmount;
 	}
+	//endregion
 }

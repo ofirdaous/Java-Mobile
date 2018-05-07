@@ -15,17 +15,4 @@ public class Main {
 			System.out.println(e.getMessage());
 		}
 	}
-
-	public static void RepositoryTests() throws Exception{
-		// ApartmentTester aTester = new ApartmentTester();
-		// aTester.ExecuteTests();
-
-		//PaymentTester pTester = new PaymentTester();
-		//pTester.ExecuteTests();
-	}
-
-	public static void Task1Tests() throws Exception{
-		//Task1Tester tTester = new Task1Tester();
-		//tTester.ExecuteTests();
-	}
 }
