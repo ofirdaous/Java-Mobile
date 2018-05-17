@@ -21,7 +21,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 	//region Public Methods
 	@Override
-	public void Create(ApartmentModel model) throws Exception {
+	public void create(ApartmentModel model) throws Exception {
 		if(!IsModelValid(model))
 			throw new Exception("Model is not valid.");
 
@@ -38,7 +38,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 	}
 
 	@Override
-	public ArrayList<ApartmentModel> GetAll() throws Exception {
+	public ArrayList<ApartmentModel> getAll() throws Exception {
 		ArrayList<ApartmentModel> apartmentList = new ArrayList<ApartmentModel>();
 
 		try (Connection sqlConnection = DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password)){
@@ -64,7 +64,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 	}
 
 	@Override
-	public ApartmentModel GetByID(int id) throws Exception {
+	public ApartmentModel getByID(int id) throws Exception {
 		if(id < 1)
 			throw new Exception("ID cannot be less than 1.");
 
@@ -92,7 +92,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 	}
 
 	@Override
-	public void Update(ApartmentModel model) throws Exception {
+	public void update(ApartmentModel model) throws Exception {
 		if(!IsModelValid(model))
 			throw new Exception("Model is not valid.");
 
@@ -110,7 +110,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 	}
 
 	@Override
-	public void DeleteByID(int id) throws Exception {
+	public void deleteByID(int id) throws Exception {
 		if(id < 1)
 			throw new Exception("ID cannot be less than 1.");
 
@@ -136,7 +136,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 	}
 
 	// Receives driver manager connection entity.
-	private Connection GetConnectionDrive() {
+	private Connection GetConnectionDrive() throws SQLException {
 		return DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password);
 	}
 	//endregion

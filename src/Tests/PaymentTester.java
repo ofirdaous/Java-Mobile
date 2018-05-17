@@ -9,7 +9,7 @@ import Entities.PaymentModel;
 import Repositories.PaymentRepository;
 
 public class PaymentTester extends BaseController {
-	public PaymentTester(){
+	public PaymentTester() throws Exception{
 		super();
 	}
 
@@ -29,12 +29,12 @@ public class PaymentTester extends BaseController {
 		model.DateOfPayment = new Date();
 		model.ApartmentNumber = 1;
 
-		pRepo.Create(model);
+		pRepo.create(model);
 	}
 
 	private void GetAll() throws Exception{
 		IRepository<PaymentModel> pRepo = new PaymentRepository(settings);
-		ArrayList<PaymentModel> paymentList = pRepo.GetAll();
+		ArrayList<PaymentModel> paymentList = pRepo.getAll();
 
 		for(PaymentModel model : paymentList){
 			System.out.println(model.ID + " ," + model.PaymentAmount + " ," + model.DateOfPayment + " ," + model.ApartmentNumber);
@@ -43,22 +43,22 @@ public class PaymentTester extends BaseController {
 
 	private void GetByID(int id) throws Exception{
 		IRepository<PaymentModel> pRepo = new PaymentRepository(settings);
-		PaymentModel model = pRepo.GetByID(id);
+		PaymentModel model = pRepo.getByID(id);
 
 		System.out.println(model.ID + " ," + model.PaymentAmount + " ," + model.DateOfPayment + " ," + model.ApartmentNumber);
 	}
 
 	private void Update(int id) throws Exception{
 		IRepository<PaymentModel> pRepo = new PaymentRepository(settings);
-		PaymentModel model = pRepo.GetByID(id);
+		PaymentModel model = pRepo.getByID(id);
 		
 		model.PaymentAmount = 1551.1;
 		
-		pRepo.Update(model);
+		pRepo.update(model);
 	}
 
 	private void DeleteByID(int id) throws Exception{
 		IRepository<PaymentModel> pRepo = new PaymentRepository(settings);
-		pRepo.DeleteByID(id);
+		pRepo.deleteByID(id);
 	}
 }

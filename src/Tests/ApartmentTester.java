@@ -8,7 +8,7 @@ import Entities.ApartmentModel;
 import Repositories.ApartmentRepository;
 
 public class ApartmentTester extends BaseController {
-	public ApartmentTester(){
+	public ApartmentTester() throws Exception{
 		super();
 	}
 
@@ -26,12 +26,12 @@ public class ApartmentTester extends BaseController {
 		ApartmentModel model = new ApartmentModel();
 		model.ApartmentNumber = 6;
 
-		aRepo.Create(model);
+		aRepo.create(model);
 	}
 
 	private void GetAll() throws Exception{
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
-		ArrayList<ApartmentModel> apartmentList = aRepo.GetAll();
+		ArrayList<ApartmentModel> apartmentList = aRepo.getAll();
 
 		for(ApartmentModel apartment : apartmentList){
 			System.out.println("ID: " + apartment.ID + " , Apartment Number: " + apartment.ApartmentNumber);
@@ -40,7 +40,7 @@ public class ApartmentTester extends BaseController {
 
 	private void GetByID(int id) throws Exception{
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
-		ApartmentModel apartment = aRepo.GetByID(id);
+		ApartmentModel apartment = aRepo.getByID(id);
 
 		if(apartment != null)
 			System.out.println("ID: " + apartment.ID + " , Apartment Number: " + apartment.ApartmentNumber);
@@ -50,15 +50,15 @@ public class ApartmentTester extends BaseController {
 
 	private void Update(int id) throws Exception{
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
-		ApartmentModel apartment = aRepo.GetByID(id);
+		ApartmentModel apartment = aRepo.getByID(id);
 
 		apartment.ApartmentNumber = 665;
 
-		aRepo.Update(apartment);
+		aRepo.update(apartment);
 	}
 
 	private void DeleteByID(int id) throws Exception{
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
-		aRepo.DeleteByID(id);
+		aRepo.deleteByID(id);
 	}
 }

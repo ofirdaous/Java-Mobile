@@ -3,20 +3,20 @@ package Abstracts;
 import Entities.Settings;
 
 public class BaseController {
-	//region Members
+	// region Members
 	protected Settings settings;
-	//endregion
+	// endregion
 
-	//region Constructor
-	public BaseController() {
-		this.settings = GetSettings();
+	// region Constructor
+	public BaseController() throws Exception {
+		this.settings = getSettings();
 	}
-	//endregion
+	// endregion
 
-	//region Public Methods
+	// region Public Methods
 	// Recives settings of the project and initialize it to global variable.
-	private Settings GetSettings(){
+	private Settings getSettings() throws Exception {
 		return new Settings("jdbc:mysql://localhost:3306/project1", "root", "Mako123456");
 	}
-	//endregion
+	// endregion
 }

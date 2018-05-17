@@ -12,7 +12,7 @@ import Repositories.PaymentRepository;
 
 public class TenantsInfo extends BaseController {
 	//region Constructor
-	public TenantsInfo(){
+	public TenantsInfo() throws Exception{
 		super();
 	}
 	//endregion
@@ -24,7 +24,7 @@ public class TenantsInfo extends BaseController {
 			throw new Exception("Inputs are not valid.");
 		
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
-		ApartmentModel apartment = aRepo.GetByID(apartmentID);
+		ApartmentModel apartment = aRepo.getByID(apartmentID);
 		
 		if(apartment == null)
 			throw new Exception("No apartment exists with given ID, aborting.");
@@ -36,7 +36,7 @@ public class TenantsInfo extends BaseController {
 		paymentModel.DateOfPayment = date;
 		paymentModel.ApartmentNumber = apartmentID;
 
-		pRepo.Create(paymentModel);
+		pRepo.create(paymentModel);
 	}
 	
 	// Receives list of payments of specific apartment by given ID and display the information.
@@ -45,7 +45,7 @@ public class TenantsInfo extends BaseController {
 			throw new Exception("Inputs are not valid.");
 		
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
-		ApartmentModel apartment = aRepo.GetByID(id);
+		ApartmentModel apartment = aRepo.getByID(id);
 		
 		if(apartment == null)
 			throw new Exception("No apartment exists with given ID, aborting.");

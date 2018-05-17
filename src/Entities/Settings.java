@@ -1,30 +1,30 @@
 package Entities;
 
 public class Settings {
-	//region Members
+	// region Members
 	public String UserName;
 	public String Password;
 	public String SqlConnectionString;
-	//endregion
+	// endregion
 
-	//region Constructor
-	public Settings(String sqlConnectionString, String userName, String password){
-		if(!IsArgumentsValid(sqlConnectionString, userName, password))
+	// region Constructor
+	public Settings(String sqlConnectionString, String userName, String password) throws Exception {
+		if (!isSettingsArgumentsValid(sqlConnectionString, userName, password))
 			throw new Exception("Arguments for settings are not valid, aborting.");
 
 		this.UserName = userName;
 		this.Password = password;
 		this.SqlConnectionString = sqlConnectionString;
 	}
-	//endregion
+	// endregion
 
-	//region Private Methods
+	// region Private Methods
 	// Validates whether the received arguments are valid or not.
-	private boolean IsArgumentsValid(String sqlConnectionString, String userName, String password) {
-		if(sqlConnectionString == null || userName == null || password == null)
+	private boolean isSettingsArgumentsValid(String sqlConnectionString, String userName, String password) {
+		if (sqlConnectionString == null || userName == null || password == null)
 			return false;
 		else
 			return true;
 	}
-	//endregion
+	// endregion
 }

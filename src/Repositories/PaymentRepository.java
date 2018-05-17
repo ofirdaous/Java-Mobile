@@ -27,7 +27,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 	//region Public Methods
 	@Override
-	public void Create(PaymentModel model) throws Exception {
+	public void create(PaymentModel model) throws Exception {
 		if(!IsModelValid(model))
 			throw new Exception("Model is not valid.");
 
@@ -35,7 +35,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			Statement queryStatement = sqlConnection.createStatement();
 
 			queryStatement.executeUpdate("INSERT INTO payment (PaymentAmount, DateOfPayment, ApartmentNumber) "
-					+ "VALUES (" + model.PaymentAmount + ", '" + sourceFormat.format(model.DateOfPayment) + "', " + model.ApartmentNumber + ");");
+					+ "VALUES (" + model.PaymentAmount + ", '" + dateSourceFormat.format(model.DateOfPayment) + "', " + model.ApartmentNumber + ");");
 
 			sqlConnection.close();
 
@@ -45,7 +45,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 	}
 
 	@Override
-	public ArrayList<PaymentModel> GetAll() throws Exception {
+	public ArrayList<PaymentModel> getAll() throws Exception {
 		ArrayList<PaymentModel> paymentList = new ArrayList<PaymentModel>();
 
 		try (Connection sqlConnection = DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password)){
@@ -57,7 +57,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 				model.ID = Integer.parseInt(resultSet.getString("ID"));
 				model.PaymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
-				model.DateOfPayment = sourceFormat.parse(resultSet.getString("DateOfPayment"));
+				model.DateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
 				model.ApartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
 
 				if(model != null)
@@ -74,7 +74,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 	}
 
 	@Override
-	public PaymentModel GetByID(int id) throws Exception {
+	public PaymentModel getByID(int id) throws Exception {
 		if(id < 1)
 			throw new Exception("ID cannot be less than 1.");
 
@@ -91,7 +91,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 				model.ID = Integer.parseInt(resultSet.getString("ID"));
 				model.PaymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
-				model.DateOfPayment = sourceFormat.parse(resultSet.getString("DateOfPayment"));
+				model.DateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
 				model.ApartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
 
 			}
@@ -106,7 +106,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 	}
 
 	@Override
-	public void Update(PaymentModel model) throws Exception {
+	public void update(PaymentModel model) throws Exception {
 		if(!IsModelValid(model))
 			throw new Exception("Model is not valid.");
 
@@ -126,7 +126,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 	}
 
 	@Override
-	public void DeleteByID(int id) throws Exception {
+	public void deleteByID(int id) throws Exception {
 		if(id < 1)
 			throw new Exception("ID cannot be less than 1.");
 
@@ -159,7 +159,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 				model.ID = Integer.parseInt(resultSet.getString("ID"));
 				model.PaymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
-				model.DateOfPayment = sourceFormat.parse(resultSet.getString("DateOfPayment"));
+				model.DateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
 				model.ApartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
 
 				modelList.add(model);
@@ -185,7 +185,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 	}
 
 	// Receives driver manager connection entity.
-	private Connection GetConnectionDrive() {
+	private Connection GetConnectionDrive() throws SQLException {
 		return DriverManager.getConnection(settings.SqlConnectionString,settings.UserName,settings.Password);
 	}
 	//endregion
