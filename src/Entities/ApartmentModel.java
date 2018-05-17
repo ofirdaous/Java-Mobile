@@ -1,6 +1,6 @@
 package Entities;
 
 public class ApartmentModel {
-	public int ID;
-	public int ApartmentNumber;
+	public int id;
+	public int apartmentNumber;
 }

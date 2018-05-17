@@ -2,9 +2,9 @@ package Entities;
 
 public class Settings {
 	// region Members
-	public String UserName;
-	public String Password;
-	public String SqlConnectionString;
+	public String userName;
+	public String password;
+	public String sqlConnectionString;
 	// endregion
 
 	// region Constructor
@@ -12,9 +12,9 @@ public class Settings {
 		if (!isSettingsArgumentsValid(sqlConnectionString, userName, password))
 			throw new Exception("Arguments for settings are not valid, aborting.");
 
-		this.UserName = userName;
-		this.Password = password;
-		this.SqlConnectionString = sqlConnectionString;
+		this.userName = userName;
+		this.password = password;
+		this.sqlConnectionString = sqlConnectionString;
 	}
 	// endregion
 

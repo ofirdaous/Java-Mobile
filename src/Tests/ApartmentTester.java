@@ -8,56 +8,56 @@ import Entities.ApartmentModel;
 import Repositories.ApartmentRepository;
 
 public class ApartmentTester extends BaseController {
-	public ApartmentTester() throws Exception{
+	public ApartmentTester() throws Exception {
 		super();
 	}
 
-	public void ExecuteTests() throws Exception{
-		//Create();
-		//GetAll();
-		//GetByID(8);
-		//Update(1);
-		//DeleteByID(3);
+	public void ExecuteTests() throws Exception {
+		// create();
+		// getAll();
+		// getByID(8);
+		// update(1);
+		// deleteByID(3);
 	}
 
-	private void Create() throws Exception{
+	private void create() throws Exception {
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
 
 		ApartmentModel model = new ApartmentModel();
-		model.ApartmentNumber = 6;
+		model.apartmentNumber = 6;
 
 		aRepo.create(model);
 	}
 
-	private void GetAll() throws Exception{
+	private void getAll() throws Exception {
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
 		ArrayList<ApartmentModel> apartmentList = aRepo.getAll();
 
-		for(ApartmentModel apartment : apartmentList){
-			System.out.println("ID: " + apartment.ID + " , Apartment Number: " + apartment.ApartmentNumber);
+		for (ApartmentModel apartment : apartmentList) {
+			System.out.println("ID: " + apartment.id + " , Apartment Number: " + apartment.apartmentNumber);
 		}
 	}
 
-	private void GetByID(int id) throws Exception{
+	private void getByID(int id) throws Exception {
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
 		ApartmentModel apartment = aRepo.getByID(id);
 
-		if(apartment != null)
-			System.out.println("ID: " + apartment.ID + " , Apartment Number: " + apartment.ApartmentNumber);
+		if (apartment != null)
+			System.out.println("ID: " + apartment.id + " , Apartment Number: " + apartment.apartmentNumber);
 		else
 			System.out.println("No such ID exist in apartment database.");
 	}
 
-	private void Update(int id) throws Exception{
+	private void update(int id) throws Exception {
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
 		ApartmentModel apartment = aRepo.getByID(id);
 
-		apartment.ApartmentNumber = 665;
+		apartment.apartmentNumber = 665;
 
 		aRepo.update(apartment);
 	}
 
-	private void DeleteByID(int id) throws Exception{
+	private void deleteByID(int id) throws Exception {
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
 		aRepo.deleteByID(id);
 	}

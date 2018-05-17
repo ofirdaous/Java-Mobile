@@ -87,7 +87,7 @@ public class Menu {
 
 		// Todo: Make validation whether the apartment ID is exists.
 
-		tenant.InsertPaymentForApartment(apartmentID, payment, convertedDate);
+		tenant.insertPaymentForApartment(apartmentID, payment, convertedDate);
 	}
 
 	// Receives list of payments of specific apartment by given ID and display the
@@ -96,10 +96,10 @@ public class Menu {
 		System.out.print("Choose the ID of the apartment: ");
 		int id = scanner.nextInt();
 
-		ArrayList<PaymentModel> paymentList = tenant.GetPaymentPerMonthForApartment(id);
+		ArrayList<PaymentModel> paymentList = tenant.getPaymentPerMonthForApartment(id);
 
 		for (PaymentModel payment : paymentList) {
-			System.out.println("Month: " + payment.DateOfPayment + ", Amount: " + payment.PaymentAmount);
+			System.out.println("Month: " + payment.dateOfPayment + ", Amount: " + payment.paymentAmount);
 		}
 	}
 
@@ -120,7 +120,7 @@ public class Menu {
 			throw e;
 		}
 
-		double payment = tenant.GetPaymentByIDAndMonth(apartmentID, convertedDate);
+		double payment = tenant.getPaymentByIDAndMonth(apartmentID, convertedDate);
 		System.out.println("The payment amount is " + payment);
 	}
 	// endregion
