@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import Entities.PaymentModel;
-import Task1.TenantsInfo;
+import Logics.TenantsLogic;
 
-public class TestExecute {
+public class TenantTester {
 	public void executeTests() throws Exception {
 		// insertPaymentForApartment();
 		// getPaymentPerMonthForApartment(1);
@@ -14,12 +14,12 @@ public class TestExecute {
 	}
 
 	private void insertPaymentForApartment() throws Exception {
-		TenantsInfo tenantsInfo = new TenantsInfo();
+		TenantsLogic tenantsInfo = new TenantsLogic();
 		tenantsInfo.insertPaymentForApartment(1, 420, new Date());
 	}
 
 	private void getPaymentPerMonthForApartment(int id) throws Exception {
-		TenantsInfo tenantsInfo = new TenantsInfo();
+		TenantsLogic tenantsInfo = new TenantsLogic();
 
 		ArrayList<PaymentModel> paymentList = tenantsInfo.getPaymentPerMonthForApartment(id);
 
@@ -30,7 +30,7 @@ public class TestExecute {
 	}
 
 	private void getPaymentByIDAndMonth(int id, Date date) throws Exception {
-		TenantsInfo tenantsInfo = new TenantsInfo();
+		TenantsLogic tenantsInfo = new TenantsLogic();
 		double paymentAmouont = tenantsInfo.getPaymentByIDAndMonth(id, date);
 		System.out.println("Payment amount: " + paymentAmouont);
 	}

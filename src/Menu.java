@@ -4,19 +4,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+import Abstracts.IRepository;
+import Entities.ApartmentModel;
 import Entities.PaymentModel;
-import Task1.TenantsInfo;
+import Logics.TenantsLogic;
+import Repositories.ApartmentRepository;
 
 public class Menu {
 	// region Members
 	public Scanner scanner;
-	public TenantsInfo tenant;
+	public TenantsLogic tenant;
 	public SimpleDateFormat dateSourceFormat;
 	// endregion
 
 	// region Constructor
 	public Menu() throws Exception {
-		this.tenant = new TenantsInfo();
+		this.tenant = new TenantsLogic();
 		this.scanner = new Scanner(System.in);
 		this.dateSourceFormat = new SimpleDateFormat("dd-MM-yyyy");
 	}
@@ -68,9 +71,12 @@ public class Menu {
 	// Function that inserts payment for apartment.
 	// Function takes apartment ID, payment amount, and date as specific format and inserts the data to SQL.
 	public void insertPaymentForApartment() throws Exception {
-		System.out.print("Specify the ID of the apartment: ");
+		System.out.print("Specify the ID of the apartment ( Must be above than 0 ): ");
 		int apartmentID = scanner.nextInt();
 
+		if(apartmentID < 1)
+			throw new Exception("Inserted apartment ID cannot be less than 1.");
+		
 		System.out.print("Specify the amount for the payment for the apartment: ");
 		double payment = scanner.nextDouble();
 
@@ -84,8 +90,6 @@ public class Menu {
 		} catch (ParseException e) {
 			throw e;
 		}
-
-		// Todo: Make validation whether the apartment ID is exists.
 
 		tenant.insertPaymentForApartment(apartmentID, payment, convertedDate);
 	}

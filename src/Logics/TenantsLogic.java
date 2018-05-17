@@ -1,4 +1,4 @@
-package Task1;
+package Logics;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,9 +10,9 @@ import Entities.PaymentModel;
 import Repositories.ApartmentRepository;
 import Repositories.PaymentRepository;
 
-public class TenantsInfo extends BaseController {
+public class TenantsLogic extends BaseController {
 	// region Constructor
-	public TenantsInfo() throws Exception {
+	public TenantsLogic() throws Exception {
 		super();
 	}
 	// endregion
@@ -28,15 +28,15 @@ public class TenantsInfo extends BaseController {
 		ApartmentModel apartment = apartmentRepository.getByID(apartmentID);
 
 		if (apartment == null)
-			throw new Exception("No apartment exists with given ID, aborting.");
+			throw new Exception("No apartment exists with given ID..");
 
-		IRepository<PaymentModel> paymentRepository = new PaymentRepository(settings);
 		PaymentModel paymentModel = new PaymentModel();
 
-		paymentModel.paymentAmount = payment;
 		paymentModel.dateOfPayment = date;
+		paymentModel.paymentAmount = payment;
 		paymentModel.apartmentNumber = apartmentID;
 
+		IRepository<PaymentModel> paymentRepository = new PaymentRepository(settings);
 		paymentRepository.create(paymentModel);
 	}
 
@@ -50,7 +50,7 @@ public class TenantsInfo extends BaseController {
 		ApartmentModel apartment = apartmentRepository.getByID(id);
 
 		if (apartment == null)
-			throw new Exception("No apartment exists with given ID, aborting.");
+			throw new Exception("No apartment exists with given ID.");
 
 		PaymentRepository pRepo = new PaymentRepository(settings);
 		ArrayList<PaymentModel> paymentListModel = pRepo.GetAllByID(id);
