@@ -14,6 +14,11 @@ import Entities.ApartmentModel;
 import Entities.PaymentModel;
 
 public class ApartmentRepository extends BaseRepository implements IRepository<ApartmentModel> {
+	// region Members
+	private final String CONST_ID = "ID";
+	private final String CONST_APARTMENT_NUMBER = "ApartmentNumber";
+	// endregion
+
 	// region Constructor
 	public ApartmentRepository(Settings settings) {
 		super(settings);
@@ -34,8 +39,8 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate(
-					"INSERT INTO apartment (ApartmentNumber) " + "VALUES (" + model.apartmentNumber + ")");
+			queryStatement.executeUpdate("INSERT INTO apartment (" + CONST_APARTMENT_NUMBER + ") " + "VALUES ("
+					+ model.apartmentNumber + ")");
 
 			sqlConnection.close();
 
@@ -55,8 +60,8 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			while (resultSet.next()) {
 				ApartmentModel model = new ApartmentModel();
 
-				model.id = Integer.parseInt(resultSet.getString("ID"));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
+				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
+				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
 
 				if (model != null)
 					apartmentList.add(model);
@@ -78,7 +83,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 		ApartmentModel model = null;
 
-		String query = "SELECT * FROM apartment WHERE ID = " + id + "";
+		String query = "SELECT * FROM apartment WHERE " + CONST_ID + " = " + id + "";
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
@@ -87,8 +92,8 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			if (resultSet.next()) {
 				model = new ApartmentModel();
 
-				model.id = Integer.parseInt(resultSet.getString("ID"));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
+				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
+				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
 			}
 
 			sqlConnection.close();
@@ -106,7 +111,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 		ApartmentModel model = null;
 
-		String query = "SELECT * FROM apartment WHERE ApartmentNumber = " + apartmentNumber + "";
+		String query = "SELECT * FROM apartment WHERE " + CONST_APARTMENT_NUMBER + " = " + apartmentNumber + "";
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
@@ -115,8 +120,8 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			if (resultSet.next()) {
 				model = new ApartmentModel();
 
-				model.id = Integer.parseInt(resultSet.getString("ID"));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
+				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
+				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
 			}
 
 			sqlConnection.close();
@@ -141,8 +146,8 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate("UPDATE apartment " + "SET ApartmentNumber = " + model.apartmentNumber + ""
-					+ " WHERE ID = " + model.id + "");
+			queryStatement.executeUpdate("UPDATE apartment " + "SET " + CONST_APARTMENT_NUMBER + " = "
+					+ model.apartmentNumber + "" + " WHERE " + CONST_ID + " = " + model.id + "");
 
 			sqlConnection.close();
 
@@ -173,7 +178,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate("DELETE FROM apartment WHERE ID = " + id + "");
+			queryStatement.executeUpdate("DELETE FROM apartment WHERE " + CONST_ID + " = " + id + "");
 
 			sqlConnection.close();
 

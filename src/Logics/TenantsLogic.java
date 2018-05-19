@@ -28,8 +28,14 @@ public class TenantsLogic extends BaseController {
 		ApartmentRepository apartmentRepository = new ApartmentRepository(settings);
 		ApartmentModel apartment = apartmentRepository.getByApartmentNumber(apartmentNumber);
 
-		if (apartment == null)
-			throw new Exception("No apartment exists with given apartment number.");
+		if (apartment == null) {
+			apartment = new ApartmentModel();
+
+			apartment.apartmentNumber = apartmentNumber;
+			apartmentRepository.create(apartment);
+
+			apartment = apartmentRepository.getByApartmentNumber(apartmentNumber);
+		}
 
 		PaymentModel paymentModel = new PaymentModel();
 
@@ -76,7 +82,7 @@ public class TenantsLogic extends BaseController {
 		ArrayList<PaymentModel> payments = paymentRepository.getAllPaymentsByApartmentID(apartment.id);
 
 		for (PaymentModel payment : payments)
-			if (payment.dateOfPayment.getMonth() == date.getMonth())
+			if (payment.dateOfPayment.getMonth() == date.getMonth() && payment.dateOfPayment.getYear() == date.getYear())
 				calculatedPaymentAmount += payment.paymentAmount;
 
 		return calculatedPaymentAmount;

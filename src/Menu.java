@@ -69,16 +69,16 @@ public class Menu {
 	// Function takes apartment number, payment amount, and date as specific format
 	// and inserts the data to SQL.
 	public void insertPaymentForApartment() throws Exception {
-		System.out.print("Specify the ID of the apartment ( Must be above than 0 ): ");
+		System.out.print("What is the apartment number you want to insert payment for ( Must be above than 0 ): ");
 		int apartmentNumber = scanner.nextInt();
 
 		if (apartmentNumber < 1)
 			throw new Exception("Inserted apartment number cannot be less than 1.");
 
-		System.out.print("Specify the amount for the payment for the apartment: ");
+		System.out.print("What is the payment amount you want to insert: ");
 		double payment = scanner.nextDouble();
 
-		System.out.print("Specify the date of the payment ( Format: dd-MM-yyyy ): ");
+		System.out.print("What is the date that the payment has been paid ( Format: dd-MM-yyyy ): ");
 		String date = scanner.next();
 
 		Date convertedDate = null;
@@ -90,14 +90,14 @@ public class Menu {
 		}
 
 		tenant.insertPaymentForApartment(apartmentNumber, payment, convertedDate);
-		System.out.println("New payment has been created for apartment " + apartmentNumber + ".");
+		System.out.println("New payment has been created for apartment number " + apartmentNumber + ".");
 	}
 
 	// Receives list of payments of specific apartment by given number and display
 	// the
 	// information.
 	public void getPaymentPerMonthForApartment() throws Exception {
-		System.out.print("Choose the ID of the apartment: ");
+		System.out.print("What is the apartment number: ");
 		int apartmentNumber = scanner.nextInt();
 
 		if (apartmentNumber < 1)
@@ -116,22 +116,22 @@ public class Menu {
 	// Receives payment of apartment by given ID and given date, will take only the
 	// month.
 	public void getPaymentByApartmentNumberAndMonth() throws Exception {
-		System.out.print("Insert the chosen apartment number: ");
+		System.out.print("What is the apartment number: ");
 		int apartmentNumber = scanner.nextInt();
 
-		System.out.print("Specify the date of the payment ( Format: dd-MM-yyyy ): ");
+		System.out.print("Specify the month and year of the payment ( Format: MM-yyyy ): ");
 		String date = scanner.next();
 
 		Date convertedDate = null;
 
 		try {
-			convertedDate = dateSourceFormat.parse(date);
+			convertedDate = dateSourceFormat.parse("01-" + date);
 		} catch (ParseException e) {
 			throw e;
 		}
 
 		double payment = tenant.getPaymentByApartmentNumberAndMonth(apartmentNumber, convertedDate);
-		System.out.println("The payment amount is " + payment + ".");
+		System.out.println("The payment amount for month " + date + " is " + payment + ".");
 	}
 	// endregion
 }

@@ -14,6 +14,13 @@ import Entities.ApartmentModel;
 import Entities.PaymentModel;
 
 public class PaymentRepository extends BaseRepository implements IRepository<PaymentModel> {
+	// region Members
+	private final String CONST_ID = "ID";
+	private final String CONST_PAYMENT_AMOUNT = "PaymentAmount";
+	private final String CONST_DATE_OF_PAYMENT = "DateOfPayment";
+	private final String CONST_APARTMENT_NUMBER_ID = "ApartmentNumberID";
+	// endregion
+
 	// region Constructor
 	public PaymentRepository(Settings settings) {
 		super(settings);
@@ -35,9 +42,9 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate("INSERT INTO payment (PaymentAmount, DateOfPayment, ApartmentNumberID) "
-					+ "VALUES (" + model.paymentAmount + ", '" + dateSourceFormat.format(model.dateOfPayment) + "', "
-					+ model.apartmentNumberID + ");");
+			queryStatement.executeUpdate("INSERT INTO payment (" + CONST_PAYMENT_AMOUNT + ", " + CONST_DATE_OF_PAYMENT
+					+ ", " + CONST_APARTMENT_NUMBER_ID + ") " + "VALUES (" + model.paymentAmount + ", '"
+					+ dateSourceFormat.format(model.dateOfPayment) + "', " + model.apartmentNumberID + ");");
 
 			sqlConnection.close();
 
@@ -57,10 +64,10 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			while (resultSet.next()) {
 				PaymentModel model = new PaymentModel();
 
-				model.id = Integer.parseInt(resultSet.getString("ID"));
-				model.paymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
-				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
-				model.apartmentNumberID = Integer.parseInt(resultSet.getString("ApartmentNumberID"));
+				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
+				model.paymentAmount = Double.parseDouble(resultSet.getString(CONST_PAYMENT_AMOUNT));
+				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString(CONST_DATE_OF_PAYMENT));
+				model.apartmentNumberID = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER_ID));
 
 				if (model != null)
 					paymentList.add(model);
@@ -82,7 +89,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 		PaymentModel model = null;
 
-		String query = "SELECT * FROM payment WHERE ID = " + id + "";
+		String query = "SELECT * FROM payment WHERE " + CONST_ID + " = " + id + "";
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
@@ -91,10 +98,10 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			if (resultSet.next()) {
 				model = new PaymentModel();
 
-				model.id = Integer.parseInt(resultSet.getString("ID"));
-				model.paymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
-				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
-				model.apartmentNumberID = Integer.parseInt(resultSet.getString("ApartmentNumberID"));
+				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
+				model.paymentAmount = Double.parseDouble(resultSet.getString(CONST_PAYMENT_AMOUNT));
+				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString(CONST_DATE_OF_PAYMENT));
+				model.apartmentNumberID = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER_ID));
 			}
 
 			sqlConnection.close();
@@ -119,8 +126,9 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate("UPDATE payment " + "SET ApartmentNumberID = " + model.apartmentNumberID + ", "
-					+ "PaymentAmount = " + model.paymentAmount + " " + "WHERE ID = " + model.id + "");
+			queryStatement.executeUpdate("UPDATE payment " + "SET " + CONST_APARTMENT_NUMBER_ID + " = "
+					+ model.apartmentNumberID + ", " + "" + CONST_PAYMENT_AMOUNT + " = " + model.paymentAmount + " "
+					+ "WHERE " + CONST_ID + " = " + model.id + "");
 
 			sqlConnection.close();
 
@@ -142,7 +150,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate("DELETE FROM payment WHERE ID = " + id + "");
+			queryStatement.executeUpdate("DELETE FROM payment WHERE " + CONST_ID + " = " + id + "");
 
 			sqlConnection.close();
 
@@ -164,8 +172,8 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 		ArrayList<PaymentModel> modelList = new ArrayList<PaymentModel>();
 
-		String query = "SELECT * FROM payment AS p INNER JOIN apartment AS a ON p.ApartmentNumberID = a.ID WHERE a.ID = "
-				+ apartmentID + "";
+		String query = "SELECT * FROM payment AS p INNER JOIN apartment AS a ON p." + CONST_APARTMENT_NUMBER_ID
+				+ " = a." + CONST_ID + " WHERE a." + CONST_ID + " = " + apartmentID + "";
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
@@ -174,10 +182,10 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			while (resultSet.next()) {
 				PaymentModel model = new PaymentModel();
 
-				model.id = Integer.parseInt(resultSet.getString("ID"));
-				model.paymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
-				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
-				model.apartmentNumberID = Integer.parseInt(resultSet.getString("ApartmentNumberID"));
+				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
+				model.paymentAmount = Double.parseDouble(resultSet.getString(CONST_PAYMENT_AMOUNT));
+				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString(CONST_DATE_OF_PAYMENT));
+				model.apartmentNumberID = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER_ID));
 
 				modelList.add(model);
 			}
