@@ -100,6 +100,9 @@ public class Menu {
 		System.out.print("Choose the ID of the apartment: ");
 		int id = scanner.nextInt();
 
+		if(id < 1)
+			throw new Exception("Inserted apartment ID cannot be less than 1.");
+		
 		ArrayList<PaymentModel> paymentList = tenant.getPaymentPerMonthForApartment(id);
 
 		for (PaymentModel payment : paymentList) {

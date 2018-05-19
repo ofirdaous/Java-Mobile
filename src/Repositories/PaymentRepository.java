@@ -28,9 +28,9 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate("INSERT INTO payment (PaymentAmount, DateOfPayment, ApartmentNumber) "
+			queryStatement.executeUpdate("INSERT INTO payment (PaymentAmount, DateOfPayment, ApartmentNumberID) "
 					+ "VALUES (" + model.paymentAmount + ", '" + dateSourceFormat.format(model.dateOfPayment) + "', "
-					+ model.apartmentNumber + ");");
+					+ model.apartmentNumberID + ");");
 
 			sqlConnection.close();
 
@@ -53,7 +53,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 				model.id = Integer.parseInt(resultSet.getString("ID"));
 				model.paymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
 				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
+				model.apartmentNumberID = Integer.parseInt(resultSet.getString("ApartmentNumberID"));
 
 				if (model != null)
 					paymentList.add(model);
@@ -87,12 +87,11 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 				model.id = Integer.parseInt(resultSet.getString("ID"));
 				model.paymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
 				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
-
+				model.apartmentNumberID = Integer.parseInt(resultSet.getString("ApartmentNumberID"));
 			}
 
 			sqlConnection.close();
-
+			
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -108,7 +107,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate("UPDATE payment " + "SET ApartmentNumber = " + model.apartmentNumber + ", "
+			queryStatement.executeUpdate("UPDATE payment " + "SET ApartmentNumberID = " + model.apartmentNumberID + ", "
 					+ "PaymentAmount = " + model.paymentAmount + " " + "WHERE ID = " + model.id + "");
 
 			sqlConnection.close();
@@ -141,7 +140,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 		ArrayList<PaymentModel> modelList = new ArrayList<PaymentModel>();
 
-		String query = "SELECT * FROM payment AS p INNER JOIN apartment AS a ON p.ApartmentNumber = a.ID WHERE a.ID = "
+		String query = "SELECT * FROM payment AS p INNER JOIN apartment AS a ON p.ApartmentNumberID = a.ID WHERE a.ID = "
 				+ id + "";
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
@@ -154,7 +153,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 				model.id = Integer.parseInt(resultSet.getString("ID"));
 				model.paymentAmount = Double.parseDouble(resultSet.getString("PaymentAmount"));
 				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString("DateOfPayment"));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString("ApartmentNumber"));
+				model.apartmentNumberID = Integer.parseInt(resultSet.getString("ApartmentNumberID"));
 
 				modelList.add(model);
 			}
@@ -173,7 +172,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 	// Validates whether the received model is valid or not.
 	private boolean IsModelValid(PaymentModel model) {
 		if (model == null || model.id < 0 || model.dateOfPayment == null || model.paymentAmount < 0
-				|| model.apartmentNumber < 1)
+				|| model.apartmentNumberID < 1)
 			return false;
 		else
 			return true;

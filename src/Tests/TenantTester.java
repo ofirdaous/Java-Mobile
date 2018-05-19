@@ -25,7 +25,7 @@ public class TenantTester {
 
 		for (PaymentModel model : paymentList) {
 			System.out.println(
-					model.id + " ," + model.paymentAmount + " ," + model.dateOfPayment + " ," + model.apartmentNumber);
+					model.id + " ," + model.paymentAmount + " ," + model.dateOfPayment + " ," + model.apartmentNumberID);
 		}
 	}
 

@@ -34,7 +34,7 @@ public class TenantsLogic extends BaseController {
 
 		paymentModel.dateOfPayment = date;
 		paymentModel.paymentAmount = payment;
-		paymentModel.apartmentNumber = apartmentID;
+		paymentModel.apartmentNumberID = apartmentID;
 
 		IRepository<PaymentModel> paymentRepository = new PaymentRepository(settings);
 		paymentRepository.create(paymentModel);

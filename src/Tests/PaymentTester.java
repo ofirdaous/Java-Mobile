@@ -27,7 +27,7 @@ public class PaymentTester extends BaseController {
 
 		model.paymentAmount = 552.2;
 		model.dateOfPayment = new Date();
-		model.apartmentNumber = 1;
+		model.apartmentNumberID = 1;
 
 		pRepo.create(model);
 	}
@@ -38,7 +38,7 @@ public class PaymentTester extends BaseController {
 
 		for (PaymentModel model : paymentList) {
 			System.out.println(
-					model.id + " ," + model.paymentAmount + " ," + model.dateOfPayment + " ," + model.apartmentNumber);
+					model.id + " ," + model.paymentAmount + " ," + model.dateOfPayment + " ," + model.apartmentNumberID);
 		}
 	}
 
@@ -47,7 +47,7 @@ public class PaymentTester extends BaseController {
 		PaymentModel model = pRepo.getByID(id);
 
 		System.out.println(
-				model.id + " ," + model.paymentAmount + " ," + model.dateOfPayment + " ," + model.apartmentNumber);
+				model.id + " ," + model.paymentAmount + " ," + model.dateOfPayment + " ," + model.apartmentNumberID);
 	}
 
 	private void update(int id) throws Exception {
