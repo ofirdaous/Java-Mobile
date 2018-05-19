@@ -1,16 +1,16 @@
 package Repositories;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import java.util.ArrayList;
 
-import Abstracts.BaseRepository;
 import Abstracts.IRepository;
-import Entities.ApartmentModel;
+import Abstracts.BaseRepository;
 import Entities.Settings;
+import Entities.ApartmentModel;
 
 public class ApartmentRepository extends BaseRepository implements IRepository<ApartmentModel> {
 	// region Constructor
@@ -18,13 +18,13 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 		super(settings);
 	}
 	// endregion
-	
+
 	// region Public Methods
 	@Override
 	public void create(ApartmentModel model) throws Exception {
-		if (!IsModelValid(model))
+		if (!isModelValid(model))
 			throw new Exception("Model is not valid.");
-
+		
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
@@ -32,7 +32,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 					"INSERT INTO apartment (ApartmentNumber) " + "VALUES (" + model.apartmentNumber + ")");
 
 			sqlConnection.close();
-			
+
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -57,7 +57,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			}
 
 			sqlConnection.close();
-			
+
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -86,7 +86,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			}
 
 			sqlConnection.close();
-			
+
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -96,7 +96,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 	@Override
 	public void update(ApartmentModel model) throws Exception {
-		if (!IsModelValid(model))
+		if (!isModelValid(model))
 			throw new Exception("Model is not valid.");
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
@@ -106,7 +106,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 					+ " WHERE ID = " + model.id + "");
 
 			sqlConnection.close();
-			
+
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -123,7 +123,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			queryStatement.executeUpdate("DELETE FROM apartment WHERE ID = " + id + "");
 
 			sqlConnection.close();
-			
+
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -132,7 +132,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 	// region Private Methods
 	// Validates whether the received model is valid or not.
-	private boolean IsModelValid(ApartmentModel model) {
+	private boolean isModelValid(ApartmentModel model) {
 		if (model == null || model.id < 0 || model.apartmentNumber < 1)
 			return false;
 		else

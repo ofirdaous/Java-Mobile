@@ -1,14 +1,11 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.ArrayList;
 
-import Abstracts.IRepository;
-import Entities.ApartmentModel;
-import Entities.PaymentModel;
 import Logics.TenantsLogic;
-import Repositories.ApartmentRepository;
+import Entities.PaymentModel;
 
 public class Menu {
 	// region Members

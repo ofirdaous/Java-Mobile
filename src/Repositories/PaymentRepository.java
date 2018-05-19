@@ -1,16 +1,17 @@
 package Repositories;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import java.util.ArrayList;
 
-import Abstracts.BaseRepository;
 import Abstracts.IRepository;
-import Entities.PaymentModel;
+import Abstracts.BaseRepository;
 import Entities.Settings;
+import Entities.ApartmentModel;
+import Entities.PaymentModel;
 
 public class PaymentRepository extends BaseRepository implements IRepository<PaymentModel> {
 	// region Constructor
@@ -22,8 +23,14 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 	// region Public Methods
 	@Override
 	public void create(PaymentModel model) throws Exception {
-		if (!IsModelValid(model))
+		if (!isModelValid(model))
 			throw new Exception("Model is not valid.");
+
+		IRepository<ApartmentModel> apartmentRepository = new ApartmentRepository(settings);
+		ApartmentModel apartment = apartmentRepository.getByID(model.apartmentNumberID);
+
+		if (apartment == null)
+			throw new Exception("Attempts to create payment for apartment that doesn't exist.");
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
@@ -91,7 +98,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			}
 
 			sqlConnection.close();
-			
+
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -101,7 +108,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 	@Override
 	public void update(PaymentModel model) throws Exception {
-		if (!IsModelValid(model))
+		if (!isModelValid(model))
 			throw new Exception("Model is not valid.");
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
@@ -134,7 +141,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		}
 	}
 
-	public ArrayList<PaymentModel> GetAllByID(int id) throws Exception {
+	public ArrayList<PaymentModel> getAllPaymentsByApartmentID(int id) throws Exception {
 		if (id < 1)
 			throw new Exception("ID cannot be less than 1.");
 
@@ -170,7 +177,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 
 	// region Private Methods
 	// Validates whether the received model is valid or not.
-	private boolean IsModelValid(PaymentModel model) {
+	private boolean isModelValid(PaymentModel model) {
 		if (model == null || model.id < 0 || model.dateOfPayment == null || model.paymentAmount < 0
 				|| model.apartmentNumberID < 1)
 			return false;

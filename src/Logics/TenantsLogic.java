@@ -24,11 +24,11 @@ public class TenantsLogic extends BaseController {
 		if (apartmentID < 1 || payment < 0 || date == null)
 			throw new Exception("Inputs are not valid.");
 
-		ApartmentRepository apartmentRepository = new ApartmentRepository(settings);
+		IRepository<ApartmentModel> apartmentRepository = new ApartmentRepository(settings);
 		ApartmentModel apartment = apartmentRepository.getByID(apartmentID);
 
 		if (apartment == null)
-			throw new Exception("No apartment exists with given ID..");
+			throw new Exception("No apartment exists with given ID.");
 
 		PaymentModel paymentModel = new PaymentModel();
 
@@ -53,7 +53,7 @@ public class TenantsLogic extends BaseController {
 			throw new Exception("No apartment exists with given ID.");
 
 		PaymentRepository pRepo = new PaymentRepository(settings);
-		ArrayList<PaymentModel> paymentListModel = pRepo.GetAllByID(id);
+		ArrayList<PaymentModel> paymentListModel = pRepo.getAllPaymentsByApartmentID(id);
 
 		return paymentListModel;
 	}
@@ -67,7 +67,7 @@ public class TenantsLogic extends BaseController {
 		double paymentAmount = 0;
 
 		PaymentRepository paymentRepository = new PaymentRepository(settings);
-		ArrayList<PaymentModel> paymentListModel = paymentRepository.GetAllByID(id);
+		ArrayList<PaymentModel> paymentListModel = paymentRepository.getAllPaymentsByApartmentID(id);
 
 		for (PaymentModel item : paymentListModel) {
 			if (item.dateOfPayment.getMonth() == date.getMonth())
