@@ -1,5 +1,3 @@
-import Tests.ApartmentTester;
-
 public class Main {
 	/*
 	 * Moshe Binieli - 311800668, Ofir Daous - 203796156

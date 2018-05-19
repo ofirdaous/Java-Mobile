@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import Utils.Utils;
 import Entities.Settings;
 
 public class BaseRepository {
@@ -16,7 +17,7 @@ public class BaseRepository {
 	// region Constructor
 	public BaseRepository(Settings settings) {
 		this.settings = settings;
-		this.dateSourceFormat = new SimpleDateFormat("dd-MM-yyyy");
+		this.dateSourceFormat = Utils.getSimpleDateFormat();
 	}
 	// endregion
 

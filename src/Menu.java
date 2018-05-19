@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import Utils.Utils;
 import Logics.TenantsLogic;
 import Entities.PaymentModel;
 
@@ -18,7 +19,7 @@ public class Menu {
 	public Menu() throws Exception {
 		this.tenant = new TenantsLogic();
 		this.scanner = new Scanner(System.in);
-		this.dateSourceFormat = new SimpleDateFormat("dd-MM-yyyy");
+		this.dateSourceFormat = Utils.getSimpleDateFormat();
 	}
 	// endregion
 
