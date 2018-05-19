@@ -15,8 +15,8 @@ public class ApartmentTester extends BaseController {
 	public void ExecuteTests() throws Exception {
 		// create();
 		// getAll();
-		// getByID(8);
-		// update(1);
+		// getByID(3);
+		update(4);
 		// deleteByID(1);
 	}
 
@@ -34,7 +34,10 @@ public class ApartmentTester extends BaseController {
 		ArrayList<ApartmentModel> apartmentList = aRepo.getAll();
 
 		for (ApartmentModel apartment : apartmentList) {
-			System.out.println("ID: " + apartment.id + " , Apartment Number: " + apartment.apartmentNumber);
+			System.out.println("ID: " + apartment.id + " , Apartment Number: " + apartment.apartmentNumber
+					+ ", First Name: " + apartment.firstName + ", Last Name: " + apartment.lastName
+					+ ", Identity Numer: " + apartment.identityNumber + ", Years Seniority: " + apartment.yearsSeniority
+					+ ", Type: " + apartment.tenantType);
 		}
 	}
 
@@ -43,7 +46,10 @@ public class ApartmentTester extends BaseController {
 		ApartmentModel apartment = aRepo.getByID(id);
 
 		if (apartment != null)
-			System.out.println("ID: " + apartment.id + " , Apartment Number: " + apartment.apartmentNumber);
+			System.out.println("ID: " + apartment.id + " , Apartment Number: " + apartment.apartmentNumber
+					+ ", First Name: " + apartment.firstName + ", Last Name: " + apartment.lastName
+					+ ", Identity Numer: " + apartment.identityNumber + ", Years Seniority: " + apartment.yearsSeniority
+					+ ", Type: " + apartment.tenantType);
 		else
 			System.out.println("No such ID exist in apartment database.");
 	}

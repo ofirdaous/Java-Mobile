@@ -13,10 +13,17 @@ import Entities.Settings;
 import Entities.ApartmentModel;
 import Entities.PaymentModel;
 
+import Utils.Utils;
+
 public class ApartmentRepository extends BaseRepository implements IRepository<ApartmentModel> {
 	// region Members
 	private final String CONST_ID = "ID";
 	private final String CONST_APARTMENT_NUMBER = "ApartmentNumber";
+	private final String CONST_YEARS_SENIORITY = "YearsSeniority";
+	private final String CONST_FIRST_NAME = "FirstName";
+	private final String CONST_LAST_NAME = "LastName";
+	private final String CONST_IDENTITY_NUMBER = "IdentityNumber";
+	private final String CONST_TENANT_TYPE = "TenantType";
 	// endregion
 
 	// region Constructor
@@ -39,8 +46,11 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
-			queryStatement.executeUpdate("INSERT INTO apartment (" + CONST_APARTMENT_NUMBER + ") " + "VALUES ("
-					+ model.apartmentNumber + ")");
+			queryStatement.executeUpdate("INSERT INTO apartment (" + CONST_APARTMENT_NUMBER + ", "
+					+ CONST_YEARS_SENIORITY + ", " + CONST_FIRST_NAME + ", " + CONST_LAST_NAME + ", "
+					+ CONST_IDENTITY_NUMBER + ", " + CONST_TENANT_TYPE + ") " + "VALUES (" + model.apartmentNumber
+					+ ", " + model.yearsSeniority + ", '" + model.firstName + "', '" + model.lastName + "', '"
+					+ model.identityNumber + "', " + Utils.parseTenanTypetInteger(model.tenantType) + ")");
 
 			sqlConnection.close();
 
@@ -62,6 +72,11 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
 				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
+				model.yearsSeniority = Integer.parseInt(resultSet.getString(CONST_YEARS_SENIORITY));
+				model.firstName = resultSet.getString(CONST_FIRST_NAME);
+				model.lastName = resultSet.getString(CONST_LAST_NAME);
+				model.identityNumber = resultSet.getString(CONST_IDENTITY_NUMBER);
+				model.tenantType = Utils.parseTenanTypetEnum(Integer.parseInt(resultSet.getString(CONST_TENANT_TYPE)));
 
 				if (model != null)
 					apartmentList.add(model);
@@ -94,6 +109,11 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
 				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
+				model.yearsSeniority = Integer.parseInt(resultSet.getString(CONST_YEARS_SENIORITY));
+				model.firstName = resultSet.getString(CONST_FIRST_NAME);
+				model.lastName = resultSet.getString(CONST_LAST_NAME);
+				model.identityNumber = resultSet.getString(CONST_IDENTITY_NUMBER);
+				model.tenantType = Utils.parseTenanTypetEnum(Integer.parseInt(resultSet.getString(CONST_TENANT_TYPE)));
 			}
 
 			sqlConnection.close();
@@ -122,6 +142,11 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 
 				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
 				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
+				model.yearsSeniority = Integer.parseInt(resultSet.getString(CONST_YEARS_SENIORITY));
+				model.firstName = resultSet.getString(CONST_FIRST_NAME);
+				model.lastName = resultSet.getString(CONST_LAST_NAME);
+				model.identityNumber = resultSet.getString(CONST_IDENTITY_NUMBER);
+				model.tenantType = Utils.parseTenanTypetEnum(Integer.parseInt(resultSet.getString(CONST_TENANT_TYPE)));
 			}
 
 			sqlConnection.close();
