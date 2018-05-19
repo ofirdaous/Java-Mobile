@@ -31,7 +31,7 @@ public class TenantTester {
 
 	private void getPaymentByIDAndMonth(int id, Date date) throws Exception {
 		TenantsLogic tenantsInfo = new TenantsLogic();
-		double paymentAmouont = tenantsInfo.getPaymentByIDAndMonth(id, date);
+		double paymentAmouont = tenantsInfo.getPaymentByApartmentNumberAndMonth(id, date);
 		System.out.println("Payment amount: " + paymentAmouont);
 	}
 }

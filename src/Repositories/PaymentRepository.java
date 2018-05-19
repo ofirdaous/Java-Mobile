@@ -111,6 +111,11 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		if (!isModelValid(model))
 			throw new Exception("Model is not valid.");
 
+		PaymentModel modelFromDB = getByID(model.id);
+
+		if (modelFromDB == null)
+			throw new Exception("Attempt to update model that doesn't exist at database, aborting.");
+
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
@@ -129,6 +134,11 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		if (id < 1)
 			throw new Exception("ID cannot be less than 1.");
 
+		PaymentModel modelFromDB = getByID(id);
+
+		if (modelFromDB == null)
+			throw new Exception("Attempt to delete model that doesn't exist at database, aborting.");
+
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
@@ -141,14 +151,21 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 		}
 	}
 
-	public ArrayList<PaymentModel> getAllPaymentsByApartmentID(int id) throws Exception {
-		if (id < 1)
+	// Receives all payments by given apartment ID with inner join.
+	public ArrayList<PaymentModel> getAllPaymentsByApartmentID(int apartmentID) throws Exception {
+		if (apartmentID < 1)
 			throw new Exception("ID cannot be less than 1.");
+
+		IRepository<ApartmentModel> apartmentRepository = new ApartmentRepository(settings);
+		ApartmentModel apartment = apartmentRepository.getByID(apartmentID);
+
+		if (apartment == null)
+			throw new Exception("Cannot get payments since the given ID for apartment doesn't exist.");
 
 		ArrayList<PaymentModel> modelList = new ArrayList<PaymentModel>();
 
 		String query = "SELECT * FROM payment AS p INNER JOIN apartment AS a ON p.ApartmentNumberID = a.ID WHERE a.ID = "
-				+ id + "";
+				+ apartmentID + "";
 
 		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();

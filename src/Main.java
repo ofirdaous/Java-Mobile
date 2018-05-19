@@ -1,3 +1,5 @@
+import Tests.ApartmentTester;
+
 public class Main {
 	/*
 	 * Moshe Binieli - 311800668, Ofir Daous - 203796156
@@ -13,23 +15,16 @@ public class Main {
 }
 
 /*
-	* Create apartment table *
-	
-	CREATE TABLE `apartment` (
-	    `ID` INT(11) NOT NULL AUTO_INCREMENT,
-	    `ApartmentNumber` INT(11) NOT NULL,
-	    PRIMARY KEY (`ID`)
-	)
-
-	* Create payment table * 
-	
-	CREATE TABLE `payment` (
-    `ID` INT(11) NOT NULL AUTO_INCREMENT,
-    `PaymentAmount` DOUBLE NOT NULL,
-    `DateOfPayment` VARCHAR(255) NOT NULL,
-    `ApartmentNumberID` INT(11) NOT NULL,
-    PRIMARY KEY (`ID`),
-    FOREIGN KEY (ApartmentNumberID)
-        REFERENCES apartment (ID))
-
-*/
+ * Create apartment table *
+ * 
+ * CREATE TABLE `apartment` ( `ID` INT(11) NOT NULL AUTO_INCREMENT,
+ * `ApartmentNumber` INT(11) NOT NULL, PRIMARY KEY (`ID`) )
+ * 
+ * Create payment table *
+ * 
+ * CREATE TABLE `payment` ( `ID` INT(11) NOT NULL AUTO_INCREMENT,
+ * `PaymentAmount` DOUBLE NOT NULL, `DateOfPayment` VARCHAR(255) NOT NULL,
+ * `ApartmentNumberID` INT(11) NOT NULL, PRIMARY KEY (`ID`), FOREIGN KEY
+ * (ApartmentNumberID) REFERENCES apartment (ID))
+ * 
+ */

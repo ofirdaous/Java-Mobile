@@ -18,63 +18,68 @@ public class TenantsLogic extends BaseController {
 	// endregion
 
 	// region Public Methods
-	// Function takes apartment ID, payment amount, and date as specific format and
+	// Function takes apartment number, payment amount, and date as specific format
+	// and
 	// inserts the data to SQL.
-	public void insertPaymentForApartment(int apartmentID, double payment, Date date) throws Exception {
-		if (apartmentID < 1 || payment < 0 || date == null)
+	public void insertPaymentForApartment(int apartmentNumber, double payment, Date date) throws Exception {
+		if (apartmentNumber < 1 || payment < 0 || date == null)
 			throw new Exception("Inputs are not valid.");
 
-		IRepository<ApartmentModel> apartmentRepository = new ApartmentRepository(settings);
-		ApartmentModel apartment = apartmentRepository.getByID(apartmentID);
+		ApartmentRepository apartmentRepository = new ApartmentRepository(settings);
+		ApartmentModel apartment = apartmentRepository.getByApartmentNumber(apartmentNumber);
 
 		if (apartment == null)
-			throw new Exception("No apartment exists with given ID.");
+			throw new Exception("No apartment exists with given apartment number.");
 
 		PaymentModel paymentModel = new PaymentModel();
 
 		paymentModel.dateOfPayment = date;
 		paymentModel.paymentAmount = payment;
-		paymentModel.apartmentNumberID = apartmentID;
+		paymentModel.apartmentNumberID = apartment.id;
 
 		IRepository<PaymentModel> paymentRepository = new PaymentRepository(settings);
 		paymentRepository.create(paymentModel);
 	}
 
-	// Receives list of payments of specific apartment by given ID and display the
+	// Receives list of payments of specific apartment by given apartment number and
+	// display the
 	// information.
-	public ArrayList<PaymentModel> getPaymentPerMonthForApartment(int id) throws Exception {
-		if (id < 1)
+	public ArrayList<PaymentModel> getPaymentPerMonthForApartment(int apartmentNumber) throws Exception {
+		if (apartmentNumber < 1)
 			throw new Exception("Inputs are not valid.");
 
-		IRepository<ApartmentModel> apartmentRepository = new ApartmentRepository(settings);
-		ApartmentModel apartment = apartmentRepository.getByID(id);
+		ApartmentRepository apartmentRepository = new ApartmentRepository(settings);
+		ApartmentModel apartment = apartmentRepository.getByApartmentNumber(apartmentNumber);
 
 		if (apartment == null)
-			throw new Exception("No apartment exists with given ID.");
+			throw new Exception("No apartment exists with given apartment number.");
 
 		PaymentRepository pRepo = new PaymentRepository(settings);
-		ArrayList<PaymentModel> paymentListModel = pRepo.getAllPaymentsByApartmentID(id);
-
-		return paymentListModel;
+		return pRepo.getAllPaymentsByApartmentID(apartment.id);
 	}
 
-	// Receives payment of apartment by given ID and given date, will take only the
-	// month.
-	public double getPaymentByIDAndMonth(int id, Date date) throws Exception {
-		if (id < 1 || date == null)
+	// Receives payment of apartment by given apartment number and given date, will
+	// take only the month.
+	public double getPaymentByApartmentNumberAndMonth(int apartmentNumber, Date date) throws Exception {
+		if (apartmentNumber < 1 || date == null)
 			throw new Exception("Inputs are not valid.");
 
-		double paymentAmount = 0;
+		ApartmentRepository apartmentRepository = new ApartmentRepository(settings);
+		ApartmentModel apartment = apartmentRepository.getByApartmentNumber(apartmentNumber);
+
+		if (apartment == null)
+			throw new Exception("No apartment exists with given apartment number.");
+
+		double calculatedPaymentAmount = 0;
 
 		PaymentRepository paymentRepository = new PaymentRepository(settings);
-		ArrayList<PaymentModel> paymentListModel = paymentRepository.getAllPaymentsByApartmentID(id);
+		ArrayList<PaymentModel> payments = paymentRepository.getAllPaymentsByApartmentID(apartment.id);
 
-		for (PaymentModel item : paymentListModel) {
-			if (item.dateOfPayment.getMonth() == date.getMonth())
-				paymentAmount += item.paymentAmount;
-		}
+		for (PaymentModel payment : payments)
+			if (payment.dateOfPayment.getMonth() == date.getMonth())
+				calculatedPaymentAmount += payment.paymentAmount;
 
-		return paymentAmount;
+		return calculatedPaymentAmount;
 	}
 	// endregion
 }

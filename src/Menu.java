@@ -1,8 +1,8 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import Logics.TenantsLogic;
 import Entities.PaymentModel;
@@ -39,7 +39,7 @@ public class Menu {
 					getPaymentPerMonthForApartment();
 					break;
 				case 3:
-					getPaymentByIDAndMonth();
+					getPaymentByApartmentNumberAndMonth();
 					break;
 				default:
 					System.out.println("The choice was not correct, please try again.");
@@ -59,25 +59,26 @@ public class Menu {
 	// Display the menu at the console.
 	public void displayMenu() {
 		System.out.println("Welcome to the first program, here are the options for running the program.");
-		System.out.println("1. Ability to pay for a certain tenant. (apartment number)");
-		System.out.println("2. Ability to get months paid by a certain tenant.");
-		System.out.println("3. Ability to issue a total payment for a certain month.");
+		System.out.println("1. Insert payment for apartment.");
+		System.out.println("2. Get payments for apartment.");
+		System.out.println("3. Get total payment for apartment by given month.");
 		System.out.println("Type -1 to exit the program.");
 	}
 
 	// Function that inserts payment for apartment.
-	// Function takes apartment ID, payment amount, and date as specific format and inserts the data to SQL.
+	// Function takes apartment number, payment amount, and date as specific format
+	// and inserts the data to SQL.
 	public void insertPaymentForApartment() throws Exception {
 		System.out.print("Specify the ID of the apartment ( Must be above than 0 ): ");
-		int apartmentID = scanner.nextInt();
+		int apartmentNumber = scanner.nextInt();
 
-		if(apartmentID < 1)
-			throw new Exception("Inserted apartment ID cannot be less than 1.");
-		
+		if (apartmentNumber < 1)
+			throw new Exception("Inserted apartment number cannot be less than 1.");
+
 		System.out.print("Specify the amount for the payment for the apartment: ");
 		double payment = scanner.nextDouble();
 
-		System.out.print("Specify the date of the payment: ( Format: dd-MM-yyyy )");
+		System.out.print("Specify the date of the payment ( Format: dd-MM-yyyy ): ");
 		String date = scanner.next();
 
 		Date convertedDate = null;
@@ -88,36 +89,37 @@ public class Menu {
 			throw e;
 		}
 
-		tenant.insertPaymentForApartment(apartmentID, payment, convertedDate);
-		System.out.println("New payment has been created for apartment " + apartmentID + ".");
+		tenant.insertPaymentForApartment(apartmentNumber, payment, convertedDate);
+		System.out.println("New payment has been created for apartment " + apartmentNumber + ".");
 	}
 
-	// Receives list of payments of specific apartment by given ID and display the
+	// Receives list of payments of specific apartment by given number and display
+	// the
 	// information.
 	public void getPaymentPerMonthForApartment() throws Exception {
 		System.out.print("Choose the ID of the apartment: ");
-		int apartmentID = scanner.nextInt();
+		int apartmentNumber = scanner.nextInt();
 
-		if(apartmentID < 1)
-			throw new Exception("Inserted apartment ID cannot be less than 1.");
-		
-		ArrayList<PaymentModel> paymentList = tenant.getPaymentPerMonthForApartment(apartmentID);
+		if (apartmentNumber < 1)
+			throw new Exception("Inserted apartment number cannot be less than 1.");
 
-		if(paymentList == null || paymentList.size() == 0)
-			System.out.println("No payments has been found for this apartment " + apartmentID + ".");
-		
-		for (PaymentModel payment : paymentList) {
-			System.out.println("Month: " + payment.dateOfPayment + ", Amount: " + payment.paymentAmount);
-		}
+		ArrayList<PaymentModel> paymentList = tenant.getPaymentPerMonthForApartment(apartmentNumber);
+
+		if (paymentList == null || paymentList.size() == 0)
+			System.out.println("No payments has been found for this apartment " + apartmentNumber + ".");
+
+		if (paymentList != null && paymentList.size() > 0)
+			for (PaymentModel payment : paymentList)
+				System.out.println("Month: " + payment.dateOfPayment + ", Amount: " + payment.paymentAmount);
 	}
 
 	// Receives payment of apartment by given ID and given date, will take only the
 	// month.
-	public void getPaymentByIDAndMonth() throws Exception {
-		System.out.print("Specify the ID of the apartment: ");
-		int apartmentID = scanner.nextInt();
+	public void getPaymentByApartmentNumberAndMonth() throws Exception {
+		System.out.print("Insert the chosen apartment number: ");
+		int apartmentNumber = scanner.nextInt();
 
-		System.out.print("Specify the date of the payment: ( Format: dd-MM-yyyy )");
+		System.out.print("Specify the date of the payment ( Format: dd-MM-yyyy ): ");
 		String date = scanner.next();
 
 		Date convertedDate = null;
@@ -128,8 +130,8 @@ public class Menu {
 			throw e;
 		}
 
-		double payment = tenant.getPaymentByIDAndMonth(apartmentID, convertedDate);
-		System.out.println("The payment amount is " + payment);
+		double payment = tenant.getPaymentByApartmentNumberAndMonth(apartmentNumber, convertedDate);
+		System.out.println("The payment amount is " + payment + ".");
 	}
 	// endregion
 }

@@ -17,7 +17,7 @@ public class ApartmentTester extends BaseController {
 		// getAll();
 		// getByID(8);
 		// update(1);
-		// deleteByID(3);
+		// deleteByID(1);
 	}
 
 	private void create() throws Exception {
