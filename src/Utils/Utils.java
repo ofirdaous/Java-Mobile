@@ -14,10 +14,10 @@ public class Utils {
 		TenantType tenantType = TenantType.Tenant;
 
 		switch (type) {
-		case 1:
+		case 0:
 			tenantType = TenantType.Tenant;
 			break;
-		case 2:
+		case 1:
 			tenantType = TenantType.HouseCommittee;
 			break;
 		default:
@@ -29,17 +29,17 @@ public class Utils {
 	}
 
 	public static int parseTenanTypetInteger(TenantType type) {
-		int tenantType = 1;
+		int tenantType = 0;
 
 		switch (type) {
 		case Tenant:
-			tenantType = 1;
+			tenantType = 0;
 			break;
 		case HouseCommittee:
-			tenantType = 2;
+			tenantType = 1;
 			break;
 		default:
-			tenantType = 1;
+			tenantType = 0;
 			break;
 		}
 

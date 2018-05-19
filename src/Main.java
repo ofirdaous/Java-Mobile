@@ -37,8 +37,8 @@ public class Main {
  * CREATE TABLE `apartment` ( `ID` INT(11) NOT NULL AUTO_INCREMENT,
  * `ApartmentNumber` INT(11) NOT NULL, `FirstName` varchar(255) DEFAULT NULL,
  * `LastName` varchar(255) DEFAULT NULL, `IdentityNumber` varchar(11) DEFAULT
- * NULL, `YearsSeniority` int(4) DEFAULT NULL, `TenantType` int(1) NOT NULL,
- * PRIMARY KEY (`ID`) )
+ * NULL, `YearsSeniority` int(3) NOT NULL, `TenantType` int(1) NOT NULL, PRIMARY
+ * KEY (`ID`) )
  * 
  * 
  * Create payment table *
