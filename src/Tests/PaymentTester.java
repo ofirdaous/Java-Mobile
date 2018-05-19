@@ -37,8 +37,8 @@ public class PaymentTester extends BaseController {
 		ArrayList<PaymentModel> paymentList = pRepo.getAll();
 
 		for (PaymentModel model : paymentList) {
-			System.out.println(
-					model.id + " ," + model.paymentAmount + " ," + model.dateOfPayment + " ," + model.apartmentNumberID);
+			System.out.println("ID: " + model.id + ", Payment Amount: " + model.paymentAmount + ", Date: "
+					+ model.dateOfPayment + ", Apartment Number ID: " + model.apartmentNumberID);
 		}
 	}
 
@@ -46,8 +46,8 @@ public class PaymentTester extends BaseController {
 		IRepository<PaymentModel> pRepo = new PaymentRepository(settings);
 		PaymentModel model = pRepo.getByID(id);
 
-		System.out.println(
-				model.id + " ," + model.paymentAmount + " ," + model.dateOfPayment + " ," + model.apartmentNumberID);
+		System.out.println("ID: " + model.id + ", Payment Amount: " + model.paymentAmount + ", Date: "
+				+ model.dateOfPayment + ", Apartment Number ID: " + model.apartmentNumberID);
 	}
 
 	private void update(int id) throws Exception {

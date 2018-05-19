@@ -2,6 +2,7 @@ package Repositories;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -62,12 +63,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			ResultSet resultSet = queryStatement.executeQuery("SELECT * FROM payment");
 
 			while (resultSet.next()) {
-				PaymentModel model = new PaymentModel();
-
-				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
-				model.paymentAmount = Double.parseDouble(resultSet.getString(CONST_PAYMENT_AMOUNT));
-				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString(CONST_DATE_OF_PAYMENT));
-				model.apartmentNumberID = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER_ID));
+				PaymentModel model = castDatabaseDetailsToModel(resultSet);
 
 				if (model != null)
 					paymentList.add(model);
@@ -96,12 +92,7 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			ResultSet resultSet = queryStatement.executeQuery(query);
 
 			if (resultSet.next()) {
-				model = new PaymentModel();
-
-				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
-				model.paymentAmount = Double.parseDouble(resultSet.getString(CONST_PAYMENT_AMOUNT));
-				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString(CONST_DATE_OF_PAYMENT));
-				model.apartmentNumberID = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER_ID));
+				model = castDatabaseDetailsToModel(resultSet);
 			}
 
 			sqlConnection.close();
@@ -180,14 +171,10 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			ResultSet resultSet = queryStatement.executeQuery(query);
 
 			while (resultSet.next()) {
-				PaymentModel model = new PaymentModel();
+				PaymentModel model = castDatabaseDetailsToModel(resultSet);
 
-				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
-				model.paymentAmount = Double.parseDouble(resultSet.getString(CONST_PAYMENT_AMOUNT));
-				model.dateOfPayment = dateSourceFormat.parse(resultSet.getString(CONST_DATE_OF_PAYMENT));
-				model.apartmentNumberID = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER_ID));
-
-				modelList.add(model);
+				if (model != null)
+					modelList.add(model);
 			}
 
 			sqlConnection.close();
@@ -208,6 +195,22 @@ public class PaymentRepository extends BaseRepository implements IRepository<Pay
 			return false;
 		else
 			return true;
+	}
+
+	// Casts details from result set from database to model of the repository.
+	private PaymentModel castDatabaseDetailsToModel(ResultSet resultSet)
+			throws NumberFormatException, SQLException, ParseException {
+		if (resultSet == null)
+			return null;
+
+		PaymentModel model = new PaymentModel();
+
+		model.id = Integer.parseInt(resultSet.getString(CONST_ID));
+		model.paymentAmount = Double.parseDouble(resultSet.getString(CONST_PAYMENT_AMOUNT));
+		model.dateOfPayment = dateSourceFormat.parse(resultSet.getString(CONST_DATE_OF_PAYMENT));
+		model.apartmentNumberID = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER_ID));
+
+		return model;
 	}
 	// endregion
 }

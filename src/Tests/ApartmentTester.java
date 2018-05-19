@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Abstracts.BaseController;
 import Abstracts.IRepository;
 import Entities.ApartmentModel;
+import Enums.TenantType;
 import Repositories.ApartmentRepository;
 
 public class ApartmentTester extends BaseController {
@@ -16,7 +17,7 @@ public class ApartmentTester extends BaseController {
 		// create();
 		// getAll();
 		// getByID(3);
-		update(4);
+		// update(4);
 		// deleteByID(1);
 	}
 
@@ -58,7 +59,12 @@ public class ApartmentTester extends BaseController {
 		IRepository<ApartmentModel> aRepo = new ApartmentRepository(settings);
 		ApartmentModel apartment = aRepo.getByID(id);
 
-		apartment.apartmentNumber = 665;
+		apartment.apartmentNumber = 55;
+		apartment.firstName = "Eli";
+		apartment.lastName = "Bottle";
+		apartment.identityNumber = "012345678";
+		apartment.yearsSeniority = 5;
+		apartment.tenantType = TenantType.Tenant;
 
 		aRepo.update(apartment);
 	}

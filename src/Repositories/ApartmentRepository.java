@@ -68,15 +68,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			ResultSet resultSet = queryStatement.executeQuery("SELECT * FROM apartment");
 
 			while (resultSet.next()) {
-				ApartmentModel model = new ApartmentModel();
-
-				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
-				model.yearsSeniority = Integer.parseInt(resultSet.getString(CONST_YEARS_SENIORITY));
-				model.firstName = resultSet.getString(CONST_FIRST_NAME);
-				model.lastName = resultSet.getString(CONST_LAST_NAME);
-				model.identityNumber = resultSet.getString(CONST_IDENTITY_NUMBER);
-				model.tenantType = Utils.parseTenanTypetEnum(Integer.parseInt(resultSet.getString(CONST_TENANT_TYPE)));
+				ApartmentModel model = castDatabaseDetailsToModel(resultSet);
 
 				if (model != null)
 					apartmentList.add(model);
@@ -105,15 +97,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			ResultSet resultSet = queryStatement.executeQuery(query);
 
 			if (resultSet.next()) {
-				model = new ApartmentModel();
-
-				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
-				model.yearsSeniority = Integer.parseInt(resultSet.getString(CONST_YEARS_SENIORITY));
-				model.firstName = resultSet.getString(CONST_FIRST_NAME);
-				model.lastName = resultSet.getString(CONST_LAST_NAME);
-				model.identityNumber = resultSet.getString(CONST_IDENTITY_NUMBER);
-				model.tenantType = Utils.parseTenanTypetEnum(Integer.parseInt(resultSet.getString(CONST_TENANT_TYPE)));
+				model = castDatabaseDetailsToModel(resultSet);
 			}
 
 			sqlConnection.close();
@@ -138,15 +122,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			ResultSet resultSet = queryStatement.executeQuery(query);
 
 			if (resultSet.next()) {
-				model = new ApartmentModel();
-
-				model.id = Integer.parseInt(resultSet.getString(CONST_ID));
-				model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
-				model.yearsSeniority = Integer.parseInt(resultSet.getString(CONST_YEARS_SENIORITY));
-				model.firstName = resultSet.getString(CONST_FIRST_NAME);
-				model.lastName = resultSet.getString(CONST_LAST_NAME);
-				model.identityNumber = resultSet.getString(CONST_IDENTITY_NUMBER);
-				model.tenantType = Utils.parseTenanTypetEnum(Integer.parseInt(resultSet.getString(CONST_TENANT_TYPE)));
+				model = castDatabaseDetailsToModel(resultSet);
 			}
 
 			sqlConnection.close();
@@ -172,7 +148,10 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			Statement queryStatement = sqlConnection.createStatement();
 
 			queryStatement.executeUpdate("UPDATE apartment " + "SET " + CONST_APARTMENT_NUMBER + " = "
-					+ model.apartmentNumber + "" + " WHERE " + CONST_ID + " = " + model.id + "");
+					+ model.apartmentNumber + ", " + CONST_YEARS_SENIORITY + " = " + model.yearsSeniority + ", "
+					+ CONST_FIRST_NAME + " = '" + model.firstName + "', " + CONST_LAST_NAME + " = '" + model.lastName
+					+ "', " + CONST_IDENTITY_NUMBER + " = '" + model.identityNumber + "', " + CONST_TENANT_TYPE + " = "
+					+ Utils.parseTenanTypetInteger(model.tenantType) + " WHERE " + CONST_ID + " = " + model.id + "");
 
 			sqlConnection.close();
 
@@ -220,6 +199,24 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			return false;
 		else
 			return true;
+	}
+
+	// Casts details from result set from database to model of the repository.
+	private ApartmentModel castDatabaseDetailsToModel(ResultSet resultSet) throws NumberFormatException, SQLException {
+		if (resultSet == null)
+			return null;
+
+		ApartmentModel model = new ApartmentModel();
+
+		model.id = Integer.parseInt(resultSet.getString(CONST_ID));
+		model.apartmentNumber = Integer.parseInt(resultSet.getString(CONST_APARTMENT_NUMBER));
+		model.yearsSeniority = Integer.parseInt(resultSet.getString(CONST_YEARS_SENIORITY));
+		model.firstName = resultSet.getString(CONST_FIRST_NAME);
+		model.lastName = resultSet.getString(CONST_LAST_NAME);
+		model.identityNumber = resultSet.getString(CONST_IDENTITY_NUMBER);
+		model.tenantType = Utils.parseTenanTypetEnum(Integer.parseInt(resultSet.getString(CONST_TENANT_TYPE)));
+
+		return model;
 	}
 	// endregion
 }
