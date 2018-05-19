@@ -24,7 +24,7 @@ public class TenantsLogic extends BaseController {
 		if (apartmentID < 1 || payment < 0 || date == null)
 			throw new Exception("Inputs are not valid.");
 
-		IRepository<ApartmentModel> apartmentRepository = new ApartmentRepository(settings);
+		ApartmentRepository apartmentRepository = new ApartmentRepository(settings);
 		ApartmentModel apartment = apartmentRepository.getByID(apartmentID);
 
 		if (apartment == null)

@@ -92,19 +92,23 @@ public class Menu {
 		}
 
 		tenant.insertPaymentForApartment(apartmentID, payment, convertedDate);
+		System.out.println("New payment has been created for apartment " + apartmentID + ".");
 	}
 
 	// Receives list of payments of specific apartment by given ID and display the
 	// information.
 	public void getPaymentPerMonthForApartment() throws Exception {
 		System.out.print("Choose the ID of the apartment: ");
-		int id = scanner.nextInt();
+		int apartmentID = scanner.nextInt();
 
-		if(id < 1)
+		if(apartmentID < 1)
 			throw new Exception("Inserted apartment ID cannot be less than 1.");
 		
-		ArrayList<PaymentModel> paymentList = tenant.getPaymentPerMonthForApartment(id);
+		ArrayList<PaymentModel> paymentList = tenant.getPaymentPerMonthForApartment(apartmentID);
 
+		if(paymentList == null || paymentList.size() == 0)
+			System.out.println("No payments has been found for this apartment " + apartmentID + ".");
+		
 		for (PaymentModel payment : paymentList) {
 			System.out.println("Month: " + payment.dateOfPayment + ", Amount: " + payment.paymentAmount);
 		}

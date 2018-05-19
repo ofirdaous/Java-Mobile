@@ -18,20 +18,21 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 		super(settings);
 	}
 	// endregion
-
+	
 	// region Public Methods
 	@Override
 	public void create(ApartmentModel model) throws Exception {
 		if (!IsModelValid(model))
 			throw new Exception("Model is not valid.");
 
-		try (Connection sqlConnection = getConnectionDrive()) {
+		try (Connection sqlConnection = this.getConnectionDrive()) {
 			Statement queryStatement = sqlConnection.createStatement();
 
 			queryStatement.executeUpdate(
 					"INSERT INTO apartment (ApartmentNumber) " + "VALUES (" + model.apartmentNumber + ")");
 
 			sqlConnection.close();
+			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -56,6 +57,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			}
 
 			sqlConnection.close();
+			
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -84,6 +86,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			}
 
 			sqlConnection.close();
+			
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -103,6 +106,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 					+ " WHERE ID = " + model.id + "");
 
 			sqlConnection.close();
+			
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
@@ -119,6 +123,7 @@ public class ApartmentRepository extends BaseRepository implements IRepository<A
 			queryStatement.executeUpdate("DELETE FROM apartment WHERE ID = " + id + "");
 
 			sqlConnection.close();
+			
 		} catch (SQLException ex) {
 			throw new Exception(ex.getMessage());
 		}
